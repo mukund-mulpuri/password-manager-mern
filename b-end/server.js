@@ -10,8 +10,8 @@ dotenv.config();
 connectDB();
 
 const app = express();
-import cors from "cors";
 
+/* 🔥 CORS – SAFE & WORKING */
 app.use(
   cors({
     origin: "*",
@@ -20,19 +20,19 @@ app.use(
   })
 );
 
-app.options("*", cors()); // 🔥 THIS LINE FIXES IT
-
-// middleware
-app.use(cors());
 app.use(express.json());
 
-// routes
+/* 🔥 ROUTES */
+app.use("/api/auth", authRoutes);
+app.use("/api/passwords", passwordRoutes);
+
+/* TEST ROUTE */
 app.get("/", (req, res) => {
   res.send("API running...");
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/passwords", passwordRoutes);
-
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
