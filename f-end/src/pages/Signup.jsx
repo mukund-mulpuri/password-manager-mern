@@ -18,13 +18,16 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("SUBMIT CLICKED");
+
     try {
-      await api.post("/auth/register", form);
-      alert("Signup successful. Please login.");
+      const res = await api.post("/auth/register", form);
+      console.log("RESPONSE:", res.data);
+      alert("Signup successful");
       navigate("/");
     } catch (err) {
-      console.log(err.response?.data);
-      alert(err.response?.data?.message || "Signup failed");
+      console.log("AXIOS ERROR:", err);
+      alert("Signup failed - check console");
     }
   };
 
@@ -33,23 +36,35 @@ function Signup() {
       <div className="auth-card">
         <h2>Signup</h2>
 
+        {/* 🔥 onSubmit MUST be here */}
         <form onSubmit={handleSubmit}>
           <input
             name="username"
             placeholder="Username"
+            value={form.username}
             onChange={handleChange}
+            required
           />
+
           <input
             name="email"
+            type="email"
             placeholder="Email"
+            value={form.email}
             onChange={handleChange}
+            required
           />
+
           <input
             name="password"
             type="password"
             placeholder="Password"
+            value={form.password}
             onChange={handleChange}
+            required
           />
+
+          {/* 🔥 MUST be type="submit" */}
           <button type="submit">Signup</button>
         </form>
 
