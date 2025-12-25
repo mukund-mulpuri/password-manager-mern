@@ -5,6 +5,7 @@ import "./Auth.css";
 
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -13,12 +14,18 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    console.log("Login attempt:", form);
     try {
       const res = await api.post("/auth/login", form);
+      console.log("Login success:", res.data);
       localStorage.setItem("token", res.data.token);
       navigate("/dashboard");
     } catch (err) {
-      alert("Invalid credentials");
+      console.log("Login error:", err.response?.data);
+      const errorMsg = err.response?.data?.message || "Invalid credentials";
+      setError(errorMsg);
+      alert(errorMsg);
     }
   };
 
@@ -26,7 +33,9 @@ function Login() {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Login</h2>
-
+        {error && (
+          <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>
+        )}
         <form onSubmit={handleSubmit}>
           <input
             name="email"
