@@ -24,7 +24,7 @@ function Signup() {
       const res = await api.post("/auth/register", form);
       console.log("RESPONSE:", res.data);
       alert("Signup successful");
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       console.log("AXIOS ERROR:", err);
       alert("Signup failed - check console");
@@ -69,7 +69,7 @@ function Signup() {
         </form>
 
         <p>
-          Already have an account? <Link to="/">Login</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>

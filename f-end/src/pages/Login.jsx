@@ -31,13 +31,17 @@ function Login() {
           <input
             name="email"
             placeholder="Email"
+            value={form.email}
             onChange={handleChange}
+            required
           />
           <input
             name="password"
             type="password"
             placeholder="Password"
+            value={form.password}
             onChange={handleChange}
+            required
           />
           <button type="submit">Login</button>
         </form>
