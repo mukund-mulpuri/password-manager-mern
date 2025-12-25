@@ -9,6 +9,7 @@ function Signup() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -18,16 +19,20 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("SUBMIT CLICKED");
+    setError("");
+    console.log("SUBMIT CLICKED", form);
 
     try {
       const res = await api.post("/auth/register", form);
       console.log("RESPONSE:", res.data);
-      alert("Signup successful");
+      alert("Signup successful! Redirecting to login...");
       navigate("/login");
     } catch (err) {
       console.log("AXIOS ERROR:", err);
-      alert("Signup failed - check console");
+      const errorMsg =
+        err.response?.data?.message || err.message || "Signup failed";
+      setError(errorMsg);
+      alert(`Error: ${errorMsg}`);
     }
   };
 
@@ -35,6 +40,10 @@ function Signup() {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Signup</h2>
+
+        {error && (
+          <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>
+        )}
 
         {/* 🔥 onSubmit MUST be here */}
         <form onSubmit={handleSubmit}>
